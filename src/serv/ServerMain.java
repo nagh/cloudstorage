@@ -5,7 +5,6 @@ import org.apache.log4j.PropertyConfigurator;
 import edu.kit.aifb.dbe.hermes.*;
 
 public class ServerMain {
-
 	/**
 	 * @param args
 	 */
@@ -15,11 +14,12 @@ public class ServerMain {
 		SimpleFileLogger.getInstance();
 		RequestHandlerRegistry reg = RequestHandlerRegistry.getInstance();
 		// Fragen im Forum.
-		IRequestHandler handlerImplementationObject = new IRequestHandler();
+		// IRequestHandler handlerImplementationObject = new IRequestHandler();
+		GetHandler getHandler = new GetHandler();
+		PutSlaveHandler putSlaveHandler = new PutSlaveHandler();
+		reg.registerHandler("targetHandler",getHandler);
 		
-		reg.registerHandler("targetHandler", handlerImplementationObject);
-		
-		Receiver receiver = new Receiver(5424, 5,5);
+		Receiver receiver = new Receiver(port, 5,5);
 		receiver.start();
 	}
 
