@@ -6,10 +6,13 @@ package serv;
  */
 
 public class AddSlaveHandler {
-
 	
-	public AddSlaveHandler() {
-		// TODO Auto-generated constructor stub
+	public String ipAddress;
+	public int port;
+	
+	public AddSlaveHandler(String ipAddress, int port) {
+		this.ipAddress = ipAddress;
+		this.port = port;
 	}
 
 }

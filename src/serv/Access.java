@@ -12,22 +12,22 @@ public class Access {
 	}
 	// Lesen und Schreiben aus/in Unterordner Data.
 	// Synchronisieren: Idee: Boolean-Variable zur Steuerung.
+	// C: Wir könnten noch einen if/else-Block in die Methoden put() und get() packen. Sowas wie: if free = true { execute... } else {throw exception}. 
+	// C: Bin mir aber noch nicht ganz sicher ob wir das so brauchen oder nicht.
 	
-	public String get(){
+	public static String get(String key){
 		free = false;
-		String data = null; // lesen	
-		String key = null;
+		String data = null;
 		try {
 			data = readFile("data/" + key);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
 		}
 		free = true;
 	 return data;
 }
 
-	public void put(String key, String data){
+	public static void put(String key, String data){
 		free = false;
 		PrintStream out = null;
 		try {
@@ -42,7 +42,8 @@ public class Access {
 		}		
 		free = true;
 	}
-	public String readFile(String fileName) throws IOException {
+	
+	public static String readFile(String fileName) throws IOException {
 	    BufferedReader br = new BufferedReader(new FileReader(fileName));
 	    try {
 	        StringBuilder sb = new StringBuilder();
