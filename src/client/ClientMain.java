@@ -30,17 +30,21 @@ public class ClientMain {
 	private static String ipMaster = "127.0.0.1";
 	private static String ipSlave1 = "127.0.0.1";
 	private static String ipSlave2 = "127.0.0.1";
+	private static Sender senderM = null;
+	private static Sender senderS1 = null;
+	private static Sender senderS2 = null;
+	private static Receiver receiver = null;
+	
 	
 	public static void main(String args[]) {
 		PropertyConfigurator.configure("log4j.properties");
 		
-		// Senderobjekte erstellen (fuer getRequest werden alle 3 Hosts angesprochen)
-		Sender senderM = new Sender(ipMaster, port);
-		Sender senderS1 = new Sender(ipSlave1, port);
-		Sender senderS2 = new Sender(ipSlave2, port);
+		// Senderobjekte erstellen (fuer einen getRequest werden alle 3 Hosts angesprochen)
+		senderM = new Sender(ipMaster, port);
+		senderS1 = new Sender(ipSlave1, port);
+		senderS2 = new Sender(ipSlave2, port);
 		
-		// Receiverobjekt und starten
-		Receiver receiver = null;
+		// Receiverobjekt starten
 		try {
 			receiver = new Receiver(port, 5, 5);
 		} catch (IOException e) {
@@ -48,25 +52,43 @@ public class ClientMain {
 		}
 		receiver.start();
 		
-		// AddSlaveHandler aufrufen
+		// AddSlaveHandler aufrufen  --> ich glaube das müssen wir in der Server-Klasse machen.
 		AddSlaveHandler addSlaveHandler1 = new AddSlaveHandler(ipSlave1, port);
 		AddSlaveHandler addSlaveHandler2 = new AddSlaveHandler(ipSlave2, port);
 		
-		// putRequest absetzen
+		// putRequest senden
 		String key = "sent_testfile.txt";
 		String data = Access.get("input_testfile.txt");
-		senderM.sendMessage(putRequest(key, data), timeout);
+		putRequest(key, data);
+		
+		// getRequest senden
+		String key1 = "input_testfile.txt";
+		getRequest(key1);
 	}
 	
-	public static Request putRequest(String key, String data) {	
+	public static void putRequest(String key, String data) {
+		// Request erstellen		
 		List<Serializable> payload = new ArrayList<Serializable>();
 		payload.add(key);
 		payload.add(data);
 		Request request = new Request(payload, "putMasterHandler", null);
-		return request;
+		
+		// Request an den Master senden
+		senderM.sendMessage(request, timeout);
 	}
 	
-	public void getRequest(String key) {
-		// an alle drei
+	public static void getRequest(String key) {
+		// Request erstellen
+		List<Serializable> payload = new ArrayList<Serializable>();
+		payload.add(key);
+		Request request = new Request(payload, "getHandler", null);
+		
+		// Requests an den Master und die beiden Slaves senden
+		senderM.sendMessage(request, timeout);
+		senderS1.sendMessage(request, timeout);
+		senderS2.sendMessage(request, timeout);
+		
+		// Receiver auswerten
+		StackTraceElement[] stackTrace = receiver.getStackTrace();	
 	}
 }
