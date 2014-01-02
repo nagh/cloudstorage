@@ -9,11 +9,7 @@ import org.apache.log4j.PropertyConfigurator;
 
 import serv.Access;
 import serv.AddSlaveHandler;
-import edu.kit.aifb.dbe.hermes.Receiver;
-import edu.kit.aifb.dbe.hermes.Request;
-import edu.kit.aifb.dbe.hermes.RequestHandlerRegistry;
-import edu.kit.aifb.dbe.hermes.Sender;
-import edu.kit.aifb.dbe.hermes.SimpleFileLogger;
+import edu.kit.aifb.dbe.hermes.*;
 
 /*
  * Der Request-Objekt wird hier gebaut und an den Server geschickt.
@@ -34,8 +30,9 @@ public class ClientMain {
 	private static Sender senderS1 = null;
 	private static Sender senderS2 = null;
 	private static Receiver receiver = null;
-	
-	
+	public static AddSlaveHandler addSlaveHandler1 = null;
+	public static AddSlaveHandler addSlaveHandler2 = null;
+		
 	public static void main(String args[]) {
 		PropertyConfigurator.configure("log4j.properties");
 		
@@ -52,9 +49,9 @@ public class ClientMain {
 		}
 		receiver.start();
 		
-		// AddSlaveHandler aufrufen  --> ich glaube das müssen wir in der Server-Klasse machen.
-		AddSlaveHandler addSlaveHandler1 = new AddSlaveHandler(ipSlave1, port);
-		AddSlaveHandler addSlaveHandler2 = new AddSlaveHandler(ipSlave2, port);
+		// AddSlaveHandler aufrufen
+		addSlaveHandler1 = new AddSlaveHandler(ipSlave1, port);
+		addSlaveHandler2 = new AddSlaveHandler(ipSlave2, port);
 		
 		// putRequest senden
 		String key = "sent_testfile.txt";
@@ -89,6 +86,11 @@ public class ClientMain {
 		senderS2.sendMessage(request, timeout);
 		
 		// Receiver auswerten
-		StackTraceElement[] stackTrace = receiver.getStackTrace();	
+		// StackTraceElement[] stackTrace = receiver.getStackTrace();
+		
+		// vergebliche Versuche
+		receiver$NetworkIOHandler.Request;
+		NetworkIOHandler$receiver receiver = new NetworkIOHandler$receiver();
+		NetworkIOHandler networkIOHAndler = new NetworkIOHandler();
 	}
 }

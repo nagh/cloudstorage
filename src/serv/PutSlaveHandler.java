@@ -4,12 +4,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import client.ClientMain;
 import edu.kit.aifb.dbe.hermes.AsyncCallbackRecipient;
 import edu.kit.aifb.dbe.hermes.IRequestHandler;
 import edu.kit.aifb.dbe.hermes.Request;
 import edu.kit.aifb.dbe.hermes.Response;
 import edu.kit.aifb.dbe.hermes.Sender;
-// Klasse Sender importieren.
 
 /* Wenn fertig, Klasse als PutMasterHandler.java kopieren.
 Der Request, der übergeben werden muss, soll auch einen zusätzlichen Parameter auswerten, der sagt, ob der Request asynchron oder synchron weitergeleitet werden soll.
@@ -35,7 +35,7 @@ public class PutSlaveHandler implements IRequestHandler, AsyncCallbackRecipient 
 		Access.put(key, data);
 		// Falls weiterer Slave vorhanden, Request asynchron weitersenden
 		if  (hasSlave == true) {
-			Sender sender = new Sender(/*String*/ host, /*int*/ port);
+			Sender sender = new Sender(ClientMain.addSlaveHandler2.ipAddress, ClientMain.addSlaveHandler2.port);
 			sender.sendMessageAsync(req, null);
 		}
 		// Response erstellen und zurueckgeben
@@ -56,7 +56,7 @@ public class PutSlaveHandler implements IRequestHandler, AsyncCallbackRecipient 
 	}
 
 	@Override
-	public void callback(Response arg0) {
+	public void callback(Response arg0) { // kann leer gelassen werden
 		// TODO Auto-generated method stub
 		
 	}

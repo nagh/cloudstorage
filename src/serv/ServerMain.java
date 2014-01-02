@@ -17,23 +17,17 @@ public class ServerMain {
 		PropertyConfigurator.configure("log4j.properties");
 		SimpleFileLogger.getInstance();
 		RequestHandlerRegistry reg = RequestHandlerRegistry.getInstance();
-		
-		// Generate Handlers
-		GetHandler getHandler = new GetHandler();
-		PutMasterHandler masterSlaveHandler = new PutMasterHandler();
-		PutSlaveHandler putSlaveHandler1 = new PutSlaveHandler(hasSlave);
-		PutSlaveHandler putSlaveHandler2 = new PutSlaveHandler(!hasSlave);
-		
-		// Register Handlers
-		reg.registerHandler("getHandler",getHandler);
+						
+		// Generate and register Handlers
+		reg.registerHandler("getHandler", new GetHandler());
 		if (isMaster == true) {
-			reg.registerHandler("putMasterHandler", putMasterHandler);
+			reg.registerHandler("putMasterHandler", new PutMasterHandler());  // PutMasterHandler.java muss noch implementiert werden
 		}
 		else if(hasSlave == true) {
-			reg.registerHandler("putSlaveHandler1", putSlaveHandler1);
+			reg.registerHandler("putSlaveHandler", new PutSlaveHandler(hasSlave));
 		}
 		else {
-			reg.registerHandler("putSlaveHandler2", putSlaveHandler2);
+			reg.registerHandler("putSlaveHandler", new PutSlaveHandler(!hasSlave));
 		}
 		
 		// Start receiver
@@ -45,7 +39,7 @@ public class ServerMain {
 		}
 		receiver.start();
 		
-		// irgendwas mit Threads -> Receiver auswerten
+		// irgendwas mit Threads -> Receiver auswerten  -> FORUM
 		// request auswerten -> angefragten Handlernamen als id
 		IRequestHandler Handler = reg.getHandlerForID(id);
 
