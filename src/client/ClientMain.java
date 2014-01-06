@@ -62,7 +62,7 @@ public class ClientMain {
 		// putRequest senden
 		String key = "sent_testfile.txt";
 		String data = Access.get("input_testfile.txt");
-		putRequest(key, data, true);
+		putRequest(key, data, "true");
 		/**
 		// getRequest senden
 		String key1 = "input_testfile.txt";
@@ -85,7 +85,7 @@ public class ClientMain {
 		
 	}
 	
-	public static void putRequest(String key, String data, boolean sync) {
+	public static void putRequest(String key, String data, String sync) {
 		// Request erstellen		
 		List<Serializable> payload = new ArrayList<Serializable>();
 		payload.add(key);
