@@ -13,22 +13,41 @@ public class Access {
 	}
 	// Lesen und Schreiben aus/in Unterordner Data.
 	// Synchronisieren: Idee: Boolean-Variable zur Steuerung.
-	// C: Wir könnten noch einen if/else-Block in die Methoden put() und get() packen. Sowas wie: if free = true { execute... } else {throw exception}. 
+	// C: Wir kï¿½nnten noch einen if/else-Block in die Methoden put() und get() packen. Sowas wie: if free = true { execute... } else {throw exception}. 
 	// C: Bin mir aber noch nicht ganz sicher ob wir das so brauchen oder nicht.
+	// A: Check.
 	
 	public static String get(String key){
-		free = false;
+		
 		String data = null;
-		try {
-			data = readFile("data/" + key);
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
+		while (!free) { // optional noch eine weitere Abbruchbedingung. for-Schleife mit Zaehler?
+			try {
+				Thread.sleep(50);
+			}
+			catch (InterruptedException iex) {
+				Thread.currentThread().interrupt();
+			}
 		}
-		free = true;
+			free = false;
+			try {
+				data = readFile("data/" + key);
+			} catch (IOException ioe) {
+				ioe.printStackTrace();
+			}
+			free = true;
+			
 	 return data;
 }
 
-	public static void put(String key, String data){
+	public static void put(String key, String data){		
+		while (!free) { // Auch hier: optional noch eine weitere Abbruchbedingung.
+			try {
+				Thread.sleep(50);
+			}
+			catch (InterruptedException iex) {
+				Thread.currentThread().interrupt();
+			}
+		}
 		free = false;
 		PrintStream out = null;
 		PrintStream log = null;
