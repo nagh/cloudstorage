@@ -22,11 +22,12 @@ public class GetHandler implements IRequestHandler {
 		String key = (String) items.get(0); 
 		
 		// Datei "key" von der Festplatte lesen
-		String data = Access.get(key);  
+		String data = Access.get(key);
+		items.add(data);
 		
 		// Response erstellen
-		Response resp = new Response(data, false, req); // ???: Wofür ist der boolean-Wert?
-
+		String message = "Get-Request erfolgreich.";
+		Response resp = new Response(items, message, true, req);
 		return resp;
 	}
 

@@ -5,7 +5,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
 import org.apache.log4j.PropertyConfigurator;
@@ -69,17 +68,18 @@ public class ClientMain {
 		**/
 
 		// Task 2.2
-		String key[] = null;
+		/* String key[] = null;
 		double latency[] = null;
 		String data = Access.get("input_testfile.txt");
+		
 		for (int ii = 0; ii < 1000; ii++) {
 			key[ii] = "key_" + UUID.randomUUID();
 			Date start = new Date();
-			putRequest(key[ii], data);
+			putRequest(key[ii], data, sync);
 			Date stop = new Date();
 			latency[ii] = stop.getTime() - start.getTime();
 		}
-		
+		*/
 		
 	}
 	
@@ -113,8 +113,8 @@ public class ClientMain {
 		Response responseS2 = senderS2.sendMessage(request, timeout);
 		
 		if (responseM.responseCode() && responseS1.responseCode() && responseS2.responseCode()) {  // check if get-operation was successful
-			if (responseM.getItems().get(2).equals(responseS1.getItems().get(2)) && responseS1.getItems().get(2).equals(responseS2.getItems().get(2))) {  // check if replicas are in consistent state
-				Access.put((String) responseM.getItems().get(1), (String) responseM.getItems().get(2));
+			if (responseM.getItems().get(1).equals(responseS1.getItems().get(1)) && responseS1.getItems().get(1).equals(responseS2.getItems().get(1))) {  // check if replicas are in consistent state
+				Access.put((String) responseM.getItems().get(0), (String) responseM.getItems().get(1));
 				System.out.println("Der Get-Request war erfolgreich. Das Datum wurde lokal gespeichert.");
 			}
 			else {
