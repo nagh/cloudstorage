@@ -50,38 +50,34 @@ public class ClientMain {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		receiver.start();
+		receiver.start();	
 		
-		// AddSlaveHandler aufrufen
-		// addSlaveHandler1 = new AddSlaveHandler(ipSlave1, port);
-		// addSlaveHandler2 = new AddSlaveHandler(ipSlave2, port);
-		
-		
-		
-		/** for test purposes **/
+		/** for test purposes 
 		// putRequest senden
-		String key = "sent_testfile.txt";
+		String key = "sent_testfile10.txt";
 		String data = Access.get("input_testfile.txt");
 		putRequest(key, data, "true");
-		/**
+		
 		// getRequest senden
 		String key1 = "input_testfile.txt";
 		getRequest(key1);
 		**/
-		/*
+		
 		// Task 2.2
 		String key[] = null;
 		double latency[] = null;
 		String data = Access.get("input_testfile.txt");
-		boolean sync = true;
+		String sync = "true";
 		for (int ii = 0; ii < 1000; ii++) {
-			key[ii] = "key_" + ii;
+			key[ii] = "key_" + sync + "_" + ii;
 			Date start = new Date();
 			putRequest(key[ii], data, sync);
 			Date stop = new Date();
 			latency[ii] = stop.getTime() - start.getTime();
 		}
-		*/
+		
+		// Task 2.4 - Latenzauswertung
+		double median = 0;
 		
 	}
 	
