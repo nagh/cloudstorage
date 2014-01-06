@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import client.ClientMain;
 import edu.kit.aifb.dbe.hermes.AsyncCallbackRecipient;
 import edu.kit.aifb.dbe.hermes.IRequestHandler;
 import edu.kit.aifb.dbe.hermes.Request;
@@ -35,7 +34,7 @@ public class PutSlaveHandler implements IRequestHandler, AsyncCallbackRecipient 
 		Access.put(key, data);
 		// Falls weiterer Slave vorhanden, Request asynchron weitersenden
 		if  (hasSlave == true) {
-			Sender sender = new Sender(ClientMain.addSlaveHandler2.ipAddress, ClientMain.addSlaveHandler2.port);
+			Sender sender = new Sender(ServerMain.addSlaveHandler2.ipAddress, ServerMain.addSlaveHandler2.port);
 			sender.sendMessageAsync(req, null);
 		}
 		// Response erstellen und zurueckgeben

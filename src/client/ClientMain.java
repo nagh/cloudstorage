@@ -25,9 +25,9 @@ public class ClientMain {
 	// Configuration
 	private static int timeout = 1000; // Zeit [ms]
 	private static int port = 32563;       // Port-#
-	private static String ipMaster = "127.0.0.1";
-	private static String ipSlave1 = "127.0.0.1";
-	private static String ipSlave2 = "127.0.0.1";
+	private static String ipMaster = "ec2-54-220-73-34.eu-west-1.compute.amazonaws.com";
+	private static String ipSlave1 = "ec2-54-205-136-34.compute-1.amazonaws.com";
+	private static String ipSlave2 = "ec2-54-241-213-45.us-west-1.compute.amazonaws.com";
 	// Initialization
 	private static Sender senderM = null;
 	private static Sender senderS1 = null;
@@ -53,27 +53,29 @@ public class ClientMain {
 		receiver.start();
 		
 		// AddSlaveHandler aufrufen
-		addSlaveHandler1 = new AddSlaveHandler(ipSlave1, port);
-		addSlaveHandler2 = new AddSlaveHandler(ipSlave2, port);
+		// addSlaveHandler1 = new AddSlaveHandler(ipSlave1, port);
+		// addSlaveHandler2 = new AddSlaveHandler(ipSlave2, port);
 		
-		/** for test purposes
+		
+		
+		/** for test purposes **/
 		// putRequest senden
 		String key = "sent_testfile.txt";
 		String data = Access.get("input_testfile.txt");
-		putRequest(key, data);
-		
+		putRequest(key, data, true);
+		/**
 		// getRequest senden
 		String key1 = "input_testfile.txt";
 		getRequest(key1);
 		**/
-
+		/*
 		// Task 2.2
-		/* String key[] = null;
+		String key[] = null;
 		double latency[] = null;
 		String data = Access.get("input_testfile.txt");
-		
+		boolean sync = true;
 		for (int ii = 0; ii < 1000; ii++) {
-			key[ii] = "key_" + UUID.randomUUID();
+			key[ii] = "key_" + ii;
 			Date start = new Date();
 			putRequest(key[ii], data, sync);
 			Date stop = new Date();

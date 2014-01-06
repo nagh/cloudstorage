@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import client.ClientMain;
 import edu.kit.aifb.dbe.hermes.AsyncCallbackRecipient;
 import edu.kit.aifb.dbe.hermes.IRequestHandler;
 import edu.kit.aifb.dbe.hermes.Request;
@@ -41,7 +40,7 @@ public class PutMasterHandler implements IRequestHandler, AsyncCallbackRecipient
 		// Datum auf Festplattte schreiben
 		Access.put(key, data);
 		// Slave ist immer vorhanden. Request asynchron weitersenden falls gewuenscht.
-		Sender sender = new Sender(ClientMain.addSlaveHandler1.ipAddress, ClientMain.addSlaveHandler1.port);
+		Sender sender = new Sender(ServerMain.addSlaveHandler1.ipAddress, ServerMain.addSlaveHandler1.port);
 		if(!sync)
 			sender.sendMessageAsync(req, null);
 		
