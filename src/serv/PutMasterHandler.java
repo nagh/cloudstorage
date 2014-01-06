@@ -36,18 +36,18 @@ public class PutMasterHandler implements IRequestHandler, AsyncCallbackRecipient
 		String data = (String) items.get(1);
 		String syncreq = (String) items.get(2);
 		boolean sync = syncreq.equals("true");
-		
-		// Datum auf Festplattte schreiben
-		Access.put(key, data);
+				
 		// Slave ist immer vorhanden. Request asynchron weitersenden falls gewuenscht.
 		Sender sender = new Sender(ServerMain.addSlaveHandler1.ipAddress, ServerMain.addSlaveHandler1.port);
 		
 		Request request = new Request(req.getItems(), "putSlaveHandler", null);
+		
 		if (sync) {
 			sender.sendMessage(request, timeout);
-			// req: aendern, dass slave PutSlaveHandler hat.
+			Access.put(key, data);
 		}
 		else {
+			Access.put(key, data);
 			sender.sendMessageAsync(request, null);
 		}
 		// Response erstellen und zurueckgeben
