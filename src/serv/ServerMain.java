@@ -53,7 +53,7 @@ public class ServerMain {
 		
 		// irgendwas mit Threads -> Receiver auswerten  -> FORUM
 		// request auswerten -> angefragten Handlernamen als id
-		IRequestHandler Handler = reg.getHandlerForID(id);
+		// IRequestHandler Handler = reg.getHandlerForID(id);
 
 	}
 
