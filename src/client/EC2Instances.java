@@ -73,12 +73,13 @@ public class EC2Instances {
 				+ "export EC2_INSTANCE_ID=\"`wget -q -O - http://169.254.169.254/latest/meta-data/instance-id`\" \n" //
 				+ "echo EC2_INSTANCE_ID=$EC2_INSTANCE_ID >> /etc/environment \n" //
 				+ "source /etc/environment \n" //
-				+ "apt-get update -y \n" //
-				+ "wget https://gist.github.com/bugra-derre/7212270/raw/2a11b0f1af11d531332cc39318ae5111a159b09d/install_java_from_url.sh \n" //
-				+ "sh install_java_from_url.sh 7 https://s3.amazonaws.com/edu.kit.aifb.eorg.derre/jdk-7u45-linux-i586.tar.gz \n" //
+				+ "sudo apt-get update -y \n" //
+				+ "sudo apt-get install openjdk-7-jre* -y \n" //
 				+ "cd /home/ubuntu \n"//
+				+ "mkdir data \n"//
+				+ "mkdir log \n"//
 				+ "wget https://s3.amazonaws.com/" + s3_folder + "/ServerMain.jar \n"//
-				+ "nohup java -jar ServerMain.jar " + isMaster + " " + isSlave;//	
+				+ "java -jar ServerMain.jar " + isMaster + " " + isSlave;//	
 		
 		byte[] encodeBase64 = Base64.encodeBase64(USER_DATA.getBytes());
 		return new String(encodeBase64);
