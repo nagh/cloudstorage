@@ -42,11 +42,13 @@ public class PutMasterHandler implements IRequestHandler, AsyncCallbackRecipient
 		// Slave ist immer vorhanden. Request asynchron weitersenden falls gewuenscht.
 		Sender sender = new Sender(ServerMain.addSlaveHandler1.ipAddress, ServerMain.addSlaveHandler1.port);
 		
+		Request request = new Request(req.getItems(), "putSlaveHandler", null);
 		if (sync) {
-			sender.sendMessage(req, timeout);
+			sender.sendMessage(request, timeout);
+			// req: aendern, dass slave PutSlaveHandler hat.
 		}
 		else {
-			sender.sendMessageAsync(req, null);
+			sender.sendMessageAsync(request, null);
 		}
 		// Response erstellen und zurueckgeben
 		Response resp = new Response("Daten erfolgreich persistiert", true, req);
