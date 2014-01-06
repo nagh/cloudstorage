@@ -22,11 +22,10 @@ import edu.kit.aifb.dbe.hermes.Sender;
 
 public class PutMasterHandler implements IRequestHandler, AsyncCallbackRecipient {
 		
-		private boolean sync;
 		private static int timeout = 1000; // Timeout in [ms]
 		
-	public PutMasterHandler(boolean sync) {
-		this.sync = sync;
+	public PutMasterHandler() {
+		// empty
 	}
 
 	@Override
@@ -36,6 +35,9 @@ public class PutMasterHandler implements IRequestHandler, AsyncCallbackRecipient
 		items = req.getItems();
 		String key = (String) items.get(0);
 		String data = (String) items.get(1);
+		String syncreq = (String) items.get(2);
+		boolean sync = syncreq.equals("true");
+		
 		// Datum auf Festplattte schreiben
 		Access.put(key, data);
 		// Slave ist immer vorhanden. Request asynchron weitersenden falls gewuenscht.

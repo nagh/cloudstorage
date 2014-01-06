@@ -3,7 +3,10 @@ package client;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
 import org.apache.log4j.PropertyConfigurator;
 
@@ -26,7 +29,7 @@ public class ClientMain {
 	private static String ipMaster = "127.0.0.1";
 	private static String ipSlave1 = "127.0.0.1";
 	private static String ipSlave2 = "127.0.0.1";
-	// Initiatlization
+	// Initialization
 	private static Sender senderM = null;
 	private static Sender senderS1 = null;
 	private static Sender senderS2 = null;
@@ -54,6 +57,7 @@ public class ClientMain {
 		addSlaveHandler1 = new AddSlaveHandler(ipSlave1, port);
 		addSlaveHandler2 = new AddSlaveHandler(ipSlave2, port);
 		
+		/** for test purposes
 		// putRequest senden
 		String key = "sent_testfile.txt";
 		String data = Access.get("input_testfile.txt");
@@ -62,13 +66,29 @@ public class ClientMain {
 		// getRequest senden
 		String key1 = "input_testfile.txt";
 		getRequest(key1);
+		**/
+
+		// Task 2.2
+		String key[] = null;
+		double latency[] = null;
+		String data = Access.get("input_testfile.txt");
+		for (int ii = 0; ii < 1000; ii++) {
+			key[ii] = "key_" + UUID.randomUUID();
+			Date start = new Date();
+			putRequest(key[ii], data);
+			Date stop = new Date();
+			latency[ii] = stop.getTime() - start.getTime();
+		}
+		
+		
 	}
 	
-	public static void putRequest(String key, String data) {
+	public static void putRequest(String key, String data, boolean sync) {
 		// Request erstellen		
 		List<Serializable> payload = new ArrayList<Serializable>();
 		payload.add(key);
 		payload.add(data);
+		payload.add(sync);
 		Request request = new Request(payload, "putMasterHandler", null);
 		
 		// Request an den Master senden
