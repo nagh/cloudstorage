@@ -8,13 +8,13 @@ import edu.kit.aifb.dbe.hermes.*;
 
 public class ServerMain {
 	
-	private static int port = 5;
+	private static int port = 32563;
 	private static boolean isMaster = true;
 	private static boolean hasSlave = true; // nur relevant, falls isMaster = false
 	
 	public static void main(String args[]) {
 		
-			System.out.println("Aufruf: ServerMain <master/slave> <slave/noslave>");
+		System.out.println("Aufruf: ServerMain <master/slave> <slave/noslave>");
 		if (args != null) {
 			isMaster = args[0].equals("true");
 			hasSlave = args[1].equals("true");

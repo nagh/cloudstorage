@@ -24,7 +24,7 @@ import edu.kit.aifb.dbe.hermes.*;
 public class ClientMain {
 	// Configuration
 	private static int timeout = 1000; // Zeit [ms]
-	private static int port = 5;       // Port-#
+	private static int port = 32563;       // Port-#
 	private static String ipMaster = "127.0.0.1";
 	private static String ipSlave1 = "127.0.0.1";
 	private static String ipSlave2 = "127.0.0.1";
