@@ -11,14 +11,11 @@ public class ServerMain {
 	private static int port = 32563;
 	private static boolean isMaster = true;
 	private static boolean hasSlave = true; // nur relevant, falls isMaster = false
-	// private static String ipMaster = "ec2-54-220-73-34.eu-west-1.compute.amazonaws.com";
-	private static String ipSlave1 = "ec2-54-205-136-34.compute-1.amazonaws.com";
-	private static String ipSlave2 = "ec2-54-241-213-45.us-west-1.compute.amazonaws.com";
-	public static AddSlaveHandler addSlaveHandler1 = null;
-	public static AddSlaveHandler addSlaveHandler2 = null;
+	public static Receiver receiver = null;
+	public static AddSlaveHandler addSlaveHandler = new AddSlaveHandler();
 	
 	public static void main(String args[]) {
-		
+		// Argumente args[] auswerten
 		System.out.println("Aufruf: ServerMain <master/slave> <slave/noslave>");
 		if (args != null) {
 			isMaster = args[0].equals("true");
@@ -27,27 +24,28 @@ public class ServerMain {
 		System.out.println("Server started with following configuration:");
 		System.out.println("Server is Master: " + isMaster);
 		System.out.println("Server has Slave: " + hasSlave);
+		
 		// Basic Setup
 		PropertyConfigurator.configure("log4j.properties");
 		SimpleFileLogger.getInstance();
 		RequestHandlerRegistry reg = RequestHandlerRegistry.getInstance();
-						
+
 		// Generate and register Handlers
 		reg.registerHandler("getHandler", new GetHandler());
 		if (isMaster == true) {
 			reg.registerHandler("putMasterHandler", new PutMasterHandler());
-			addSlaveHandler1 = new AddSlaveHandler(ipSlave1, port);
+			reg.registerHandler("addSlaveHandler", addSlaveHandler);
 		}
 		else if(hasSlave == true) {
 			reg.registerHandler("putSlaveHandler", new PutSlaveHandler(hasSlave));
-			addSlaveHandler2 = new AddSlaveHandler(ipSlave2, port);
+			reg.registerHandler("addSlaveHandler", addSlaveHandler);
 		}
 		else {
 			reg.registerHandler("putSlaveHandler", new PutSlaveHandler(!hasSlave));
 		}
 		
 		// Start receiver
-		Receiver receiver = null;
+		
 		try {
 			receiver = new Receiver(port, 5, 5);
 		} catch (IOException e) {

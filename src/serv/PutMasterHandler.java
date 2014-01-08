@@ -38,7 +38,7 @@ public class PutMasterHandler implements IRequestHandler, AsyncCallbackRecipient
 		boolean sync = syncreq.equals("true");
 				
 		// Slave ist immer vorhanden. Request asynchron weitersenden falls gewuenscht.
-		Sender sender = new Sender(ServerMain.addSlaveHandler1.ipAddress, ServerMain.addSlaveHandler1.port);
+		Sender sender = new Sender(ServerMain.addSlaveHandler.ipAddress, ServerMain.addSlaveHandler.port);
 		
 		Request request = new Request(req.getItems(), "putSlaveHandler", null);
 		
@@ -48,7 +48,7 @@ public class PutMasterHandler implements IRequestHandler, AsyncCallbackRecipient
 		}
 		else {
 			Access.put(key, data);
-			sender.sendMessageAsync(request, null);
+			sender.sendMessageAsync(request, (AsyncCallbackRecipient) serv.ServerMain.receiver);
 		}
 		// Response erstellen und zurueckgeben
 		Response resp = new Response("Daten erfolgreich persistiert", true, req);
@@ -68,9 +68,11 @@ public class PutMasterHandler implements IRequestHandler, AsyncCallbackRecipient
 	}
 
 	@Override
-	public void callback(Response arg0) { // kann leer gelassen werden
+	public void callback(Response resp) { // kann leer gelassen werden
 		// TODO Auto-generated method stub
-		
+		if (resp.responseCode()) {
+			System.out.println("Daten erfolgreich auf dem Slave persistiert.");
+		}
 	}
 
 }

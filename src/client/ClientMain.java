@@ -5,12 +5,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
+import org.apache.commons.math3.stat.StatUtils;
 import org.apache.log4j.PropertyConfigurator;
 
 import serv.Access;
-import serv.AddSlaveHandler;
 import edu.kit.aifb.dbe.hermes.*;
 
 /*
@@ -33,8 +32,6 @@ public class ClientMain {
 	private static Sender senderS1 = null;
 	private static Sender senderS2 = null;
 	private static Receiver receiver = null;
-	public static AddSlaveHandler addSlaveHandler1 = null;
-	public static AddSlaveHandler addSlaveHandler2 = null;
 		
 	public static void main(String args[]) {
 		PropertyConfigurator.configure("log4j.properties");
@@ -64,8 +61,8 @@ public class ClientMain {
 		**/
 		
 		// Task 2.2
-		String key[] = null;
-		double latency[] = null;
+		String[] key = new String[1000];
+		double[] latency = new double[1000];
 		String data = Access.get("input_testfile.txt");
 		String sync = "true";
 		for (int ii = 0; ii < 1000; ii++) {
@@ -76,10 +73,45 @@ public class ClientMain {
 			latency[ii] = stop.getTime() - start.getTime();
 		}
 		
+
 		// Task 2.4 - Latenzauswertung
-		double median = 0;
-		
+		double lat_max = StatUtils.max(latency);
+		double lat_min = StatUtils.min(latency);
+		double lat_mean = StatUtils.mean(latency);
+		double lat_med = StatUtils.percentile(latency, 50);
+		System.out.println("Alle Angaben in ms:");
+		System.out.println("Maximum: " + lat_max);
+		System.out.println("Minimum: " + lat_min);
+		System.out.println("Mittelwert: " + lat_mean);
+		System.out.println("Median: " + lat_med);
 	}
+	
+	public static void initialize() {
+		List<Serializable> payloadM = new ArrayList<Serializable>();
+		payloadM.add(ipSlave1);
+		payloadM.add(port);
+		Request requestM = new Request(payloadM, "AddSlaveHandler", null);
+		Response responseM = senderM.sendMessage(requestM, timeout);
+		if (responseM.responseCode()) {
+			System.out.println("Die Initialisierung auf dem Master war erfolgreich.");
+		}
+		else {
+			System.out.println("Die Initialisierung auf dem Master ist fehlgeschlagen.");
+		}
+		
+		List<Serializable> payloadS1 = new ArrayList<Serializable>();
+		payloadS1.add(ipSlave2);
+		payloadS1.add(port);
+		Request requestS1 = new Request(payloadS1, "AddSlaveHandler", null);
+		Response responseS1 = senderM.sendMessage(requestS1, timeout);
+		if (responseS1.responseCode()) {
+			System.out.println("Die Initialisierung auf dem Slave war erfolgreich.");
+		}
+		else {
+			System.out.println("Die Initialisierung auf dem Slave ist fehlgeschlagen.");
+		}
+	}
+	
 	
 	public static void putRequest(String key, String data, String sync) {
 		// Request erstellen		
