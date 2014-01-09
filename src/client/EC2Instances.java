@@ -75,7 +75,9 @@ public class EC2Instances {
 				+ "source /etc/environment \n" //
 				+ "sudo apt-get update -y \n" //
 				+ "sudo apt-get install openjdk-7-jre* -y \n" //
-				+ "cd /home/ubuntu \n"//
+				+ "sudo update-alternatives --config java \n" //
+				+ "2 \n" //
+ 				+ "cd /home/ubuntu \n"//
 				+ "mkdir data \n"//
 				+ "mkdir log \n"//
 				+ "wget https://s3.amazonaws.com/" + s3_folder + "/ServerMain.jar \n"//
