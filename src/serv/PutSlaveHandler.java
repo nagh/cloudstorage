@@ -19,6 +19,8 @@ public class PutSlaveHandler implements IRequestHandler, AsyncCallbackRecipient 
 		
 	private boolean hasSlave;
 	
+	private static PutSlaveHandler putSlaveHandler = new PutSlaveHandler(true);
+	
 	public PutSlaveHandler(boolean hasSlave) {
 		this.hasSlave = hasSlave;
 	}
@@ -34,8 +36,8 @@ public class PutSlaveHandler implements IRequestHandler, AsyncCallbackRecipient 
 		Access.put(key, data);
 		// Falls weiterer Slave vorhanden, Request asynchron weitersenden
 		if  (hasSlave == true) {
-			Sender sender = new Sender(ServerMain.addSlaveHandler.ipAddress, ServerMain.addSlaveHandler.port);
-			sender.sendMessageAsync(req, (AsyncCallbackRecipient) serv.ServerMain.receiver);
+			Sender sender = new Sender(ServerMain.addSlaveHandler.ipAddress, ServerMain.addSlaveHandler.port);		
+			sender.sendMessageAsync(req, putSlaveHandler);
 		}
 		// Response erstellen und zurueckgeben
 		Response resp = new Response("Daten erfolgreich persistiert", true, req);

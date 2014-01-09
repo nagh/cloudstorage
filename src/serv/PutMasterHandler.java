@@ -21,8 +21,9 @@ import edu.kit.aifb.dbe.hermes.Sender;
 
 public class PutMasterHandler implements IRequestHandler, AsyncCallbackRecipient {
 		
-		private static int timeout = 1000; // Timeout in [ms]
-		
+	private static int timeout = 1000; // Timeout in [ms]
+	private static PutMasterHandler putMasterHandler = new PutMasterHandler();
+	
 	public PutMasterHandler() {
 		// empty
 	}
@@ -48,7 +49,7 @@ public class PutMasterHandler implements IRequestHandler, AsyncCallbackRecipient
 		}
 		else {
 			Access.put(key, data);
-			sender.sendMessageAsync(request, (AsyncCallbackRecipient) serv.ServerMain.receiver);
+			sender.sendMessageAsync(request, putMasterHandler);
 		}
 		// Response erstellen und zurueckgeben
 		Response resp = new Response("Daten erfolgreich persistiert", true, req);

@@ -28,7 +28,7 @@ public class AddSlaveHandler implements IRequestHandler {
 		List<Serializable> items = new ArrayList<Serializable>();
 		items = req.getItems();
 		String ip = (String) items.get(0);
-		int port = Integer.parseInt((String) items.get(1));
+		int port = (Integer) items.get(1);
 		// save to global variables
 		this.ipAddress = ip;
 		this.port = port;

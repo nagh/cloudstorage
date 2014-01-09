@@ -13,6 +13,9 @@ public class ServerMain {
 	private static boolean hasSlave = true; // nur relevant, falls isMaster = false
 	public static Receiver receiver = null;
 	public static AddSlaveHandler addSlaveHandler = new AddSlaveHandler();
+	// public static RequestHandlerRegistry reg = null;
+	// public static PutSlaveHandler putSlaveHandler = null;
+	// public static PutMasterHandler putMasterHandler = null;
 	
 	public static void main(String args[]) {
 		// Argumente args[] auswerten
