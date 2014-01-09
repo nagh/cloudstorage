@@ -24,10 +24,15 @@ public class GetHandler implements IRequestHandler {
 		// Datei "key" von der Festplatte lesen
 		String data = Access.get(key);
 		items.add(data);
+		System.out.println("Datum erfolgreich von der Festplatte gelesen.");
 		
 		// Response erstellen
+		List<Serializable> respitems = new ArrayList<Serializable>();
+		respitems.add(key);
+		respitems.add(data);
+		
 		String message = "Get-Request erfolgreich.";
-		Response resp = new Response(items, message, true, req);
+		Response resp = new Response(respitems, message, true, req);
 		return resp;
 	}
 
