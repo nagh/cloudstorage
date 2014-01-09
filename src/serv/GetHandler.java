@@ -32,7 +32,8 @@ public class GetHandler implements IRequestHandler {
 		respitems.add(data);
 		
 		String message = "Get-Request erfolgreich.";
-		Response resp = new Response(respitems, message, true, req);
+		// Response resp = new Response(respitems, message, true, req);
+		Response resp = new Response(data, message, true, req);
 		return resp;
 	}
 
